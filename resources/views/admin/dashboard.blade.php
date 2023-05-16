@@ -18,6 +18,7 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <a href="{{ Route('admin.portfolios.index') }}">Portfolio</a>
                 </div>
             </div>
         </div>
