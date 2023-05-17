@@ -29,4 +29,12 @@ class StorePortfolioRequest extends FormRequest
             'start_date' => 'required|date'
         ];
     }
+    public function messages(){
+        return [
+
+            'required' => 'Il campo non può essere vuoto',
+            'date' => 'Campo obbligatorio.',
+            'max:255' => 'Massimo 255 caratteri'
+        ];
+    }
 }
