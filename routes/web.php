@@ -21,9 +21,9 @@ Route::get('/', function(){
 });
 
 
-Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [DashBoardController::class, 'index'])->name('dashboard');
-    Route::resource('portfolios', PortfolioController::class);
+Route::middleware(['auth', 'verified'])->name('admin.')->prefix('admin')->group(function () {
+    Route::get('dashboard', [DashBoardController::class, 'index'])->name('dashboard');
+    Route::resource('portfolios', PortfolioController::class)->parameters(['portfolios'=>'portfolio:slug']);
 });
 
 require __DIR__.'/auth.php';

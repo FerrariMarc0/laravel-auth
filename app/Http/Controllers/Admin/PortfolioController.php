@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
 use App\Http\Requests\StorePortfolioRequest;
 use App\Http\Requests\UpdatePortfolioRequest;
+use Illuminate\Support\Str;
 
 class PortfolioController extends Controller
 {
@@ -27,7 +28,7 @@ class PortfolioController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.portfolios.create');
     }
 
     /**
@@ -38,7 +39,13 @@ class PortfolioController extends Controller
      */
     public function store(StorePortfolioRequest $request)
     {
-        //
+        $data = $request->validated();
+        $portfolio = new Portfolio();
+        $portfolio->fill($data);
+        $portfolio->slug = Str::slug($data['name'], '-');
+        $portfolio->save();
+
+        return to_route('admin.portfolios.index')->with('message', 'Hai inserito un nuovo progetto!');
     }
 
     /**
@@ -49,7 +56,7 @@ class PortfolioController extends Controller
      */
     public function show(Portfolio $portfolio)
     {
-        //
+        return view('admin.portfolios.show', compact('portfolio'));
     }
 
     /**
@@ -60,7 +67,7 @@ class PortfolioController extends Controller
      */
     public function edit(Portfolio $portfolio)
     {
-        //
+        return view('admin.portfolios.edit', compact('portfolio'));
     }
 
     /**
