@@ -36,10 +36,10 @@
                                 <li><a class="btn btn-primary" href="{{ route('admin.portfolios.show', $portfolio)  }}">Dettagli</a></li>
                                 <li><a class="btn btn-warning" href="{{ route('admin.portfolios.edit', $portfolio) }}">Modifica</a></li>
                             </ul>
-                            <form action="{{ route('admin.portfolios.destroy', $portfolio->id) }}" method="POST">
+                            <form action="{{ route('admin.portfolios.destroy', $portfolio) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="delete-btn">Elimina</button>
+                                <button type="submit" class="btn btn-danger">Elimina</button>
                             </form>
                         </td>
                     </tr>

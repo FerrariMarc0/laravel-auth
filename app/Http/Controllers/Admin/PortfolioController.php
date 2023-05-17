@@ -42,7 +42,7 @@ class PortfolioController extends Controller
         $data = $request->validated();
         $portfolio = new Portfolio();
         $portfolio->fill($data);
-        $portfolio->slug = Str::slug($data['name'], '-');
+        $portfolio->slug = Str::slug($data['name']);
         $portfolio->save();
 
         return to_route('admin.portfolios.index')->with('message', 'Hai inserito un nuovo progetto!');
@@ -79,7 +79,11 @@ class PortfolioController extends Controller
      */
     public function update(UpdatePortfolioRequest $request, Portfolio $portfolio)
     {
-        //
+        $data = $request->validated();
+        $portfolio->slug = Str::slug($data['name']);
+        $portfolio->update($data);
+
+        return to_route('admin.portfolios.index')->with('message', "Progetto $portfolio->id aggiornato con successo!");
     }
 
     /**
@@ -90,7 +94,8 @@ class PortfolioController extends Controller
      */
     public function destroy(Portfolio $portfolio)
     {
+        $old_id = $portfolio->id;
         $portfolio->delete();
-        return to_route('admin.portfolios.index');
+        return to_route('admin.portfolios.index')->with('message', "Progetto $old_id eliminato!");
     }
 }
