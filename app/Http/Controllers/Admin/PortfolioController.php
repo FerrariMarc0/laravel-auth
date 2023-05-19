@@ -7,6 +7,7 @@ use App\Models\Portfolio;
 use App\Http\Requests\StorePortfolioRequest;
 use App\Http\Requests\UpdatePortfolioRequest;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PortfolioController extends Controller
 {
@@ -40,9 +41,16 @@ class PortfolioController extends Controller
     public function store(StorePortfolioRequest $request)
     {
         $data = $request->validated();
+
         $portfolio = new Portfolio();
         $portfolio->fill($data);
+
         $portfolio->slug = Str::slug($data['name']);
+
+        if(isset($data['image'])){
+            $portfolio->image = Storage::put('uploads', $data['image']);
+        }
+
         $portfolio->save();
 
         return to_route('admin.portfolios.index')->with('message', 'Hai inserito un nuovo progetto!');
@@ -79,8 +87,13 @@ class PortfolioController extends Controller
      */
     public function update(UpdatePortfolioRequest $request, Portfolio $portfolio)
     {
+
         $data = $request->validated();
         $portfolio->slug = Str::slug($data['name']);
+
+        /* if(isset($data['image'])){
+            $portfolio->image = Storage::put('uploads', $data['image']);
+        } */
         $portfolio->update($data);
 
         return to_route('admin.portfolios.index')->with('message', "Progetto $portfolio->id aggiornato con successo!");

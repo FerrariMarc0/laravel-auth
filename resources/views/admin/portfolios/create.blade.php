@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h1 class="my-4">Creazione progetto</h1>
-        <form action="{{ route('admin.portfolios.store') }}" method="POST">
+        <form action="{{ route('admin.portfolios.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
@@ -19,7 +19,16 @@
             </div>
 
             <div class="mb-3">
-                <label for="start_date">Data</label>
+                <label for="image" class="form-label">Immagine</label>
+                <input class="form-control" type="file" id="image" name="image">
+            </div>
+            {{-- Anteprima immagine upload--}}
+            <div class="preview">
+                <img id="file-image-preview">
+            </div>
+
+            <div class="mb-3">
+                <label for="start_date">Data</label><br>
                 <input class="@error('start_date') is-invalid @enderror" type="date" id="start_date" name="start_date" value="{{ old('start_date') }}">
                 @error('start_date')<div class="alert alert-danger">{{ $message }}</div>@enderror
             </div>

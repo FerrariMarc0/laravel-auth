@@ -21,6 +21,15 @@
             </div>
 
             <div class="mb-3">
+                <label for="image" class="form-label">Immagine</label>
+                <input class="form-control" type="file" id="image" name="image">
+            </div>
+            {{-- Anteprima immagine upload--}}
+            <div class="preview">
+                <img id="file-image-preview" @if($portfolio->image) src="{{ asset('storage/' . $portfolio->image) }}" @endif>
+            </div>
+
+            <div class="mb-3">
                 <label for="start_date">Data</label>
                 <input class="@error('start_date') is-invalid @enderror" type="date" id="start_date" name="start_date" value="{{ old('start_date', $portfolio->start_date) }}">
                 @error('start_date')<div class="alert alert-danger">{{ $message }}</div>@enderror
