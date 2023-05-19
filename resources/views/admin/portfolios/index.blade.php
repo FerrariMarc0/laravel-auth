@@ -12,7 +12,7 @@
             <div class="alert alert-success">{{ session('message') }}</div>
         @endif
 
-        <table class="table table-hover">
+        <table class="table table-hover text-center">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -27,7 +27,7 @@
                 @foreach ($portfolios as $portfolio)
                 <tr>
                     <th scope="row">{{ $portfolio->id }}</th>
-                    <td>{{ $portfolio->name }}</td>
+                    <td>@if($portfolio->image) <span class="badge bg-secondary p-2">Img</span> @endif{{ $portfolio->name }}</td>
                     <td>{{ $portfolio->start_date }}</td>
                     <td>{{ $portfolio->description }}</td>
                     <td>{{ $portfolio->slug }}</td>

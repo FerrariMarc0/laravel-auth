@@ -91,9 +91,22 @@ class PortfolioController extends Controller
         $data = $request->validated();
         $portfolio->slug = Str::slug($data['name']);
 
-        /* if(isset($data['image'])){
-            $portfolio->image = Storage::put('uploads', $data['image']);
-        } */
+        if(empty($data['set_image'])){
+            if($portfolio->image){
+                Storage::delete($portfolio->image);
+                $portfolio->image = null;
+            }
+            } else {
+                if(isset($data['image'])){
+
+                    if($portfolio->image){
+                        Storage::delete($portfolio->image);
+                    }
+                    $portfolio->image = Storage::put('uploads', $data['image']);
+                }
+            }
+
+
         $portfolio->update($data);
 
         return to_route('admin.portfolios.index')->with('message', "Progetto $portfolio->id aggiornato con successo!");
@@ -108,6 +121,11 @@ class PortfolioController extends Controller
     public function destroy(Portfolio $portfolio)
     {
         $old_id = $portfolio->id;
+
+        if($portfolio->image) {
+            Storage::delete($portfolio->image);
+        }
+
         $portfolio->delete();
         return to_route('admin.portfolios.index')->with('message', "Progetto $old_id eliminato!");
     }

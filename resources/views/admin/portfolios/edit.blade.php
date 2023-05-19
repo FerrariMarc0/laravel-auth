@@ -4,7 +4,7 @@
     <div class="container">
 
         <h1 class="my-4">Modifica progetto: {{ $portfolio->name }}</h1>
-        <form action="{{ route('admin.portfolios.update', $portfolio) }}" method="POST">
+        <form action="{{ route('admin.portfolios.update', $portfolio) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -21,20 +21,25 @@
             </div>
 
             <div class="mb-3">
-                <label for="image" class="form-label">Immagine</label>
-                <input class="form-control" type="file" id="image" name="image">
-            </div>
-            {{-- Anteprima immagine upload--}}
-            <div class="preview">
-                <img id="file-image-preview" @if($portfolio->image) src="{{ asset('storage/' . $portfolio->image) }}" @endif>
-            </div>
-
-            <div class="mb-3">
                 <label for="start_date">Data</label>
                 <input class="@error('start_date') is-invalid @enderror" type="date" id="start_date" name="start_date" value="{{ old('start_date', $portfolio->start_date) }}">
                 @error('start_date')<div class="alert alert-danger">{{ $message }}</div>@enderror
             </div>
 
+            <div class="form-check form-switch mt-5 d-flex justify-content-center">
+                <label class="form-check-label me-5" for="set_image">Gestione immagine</label>
+                <input class="form-check-input" type="checkbox" role="switch" id="set_image" value="1" name="set_image" @if($portfolio->image) checked @endif>
+            </div>
+
+            <div class="mb-3 @if(!$portfolio->image) d-none @endif" id="image-input-box">
+                <label for="image" class="form-label">Immagine</label>
+                <input class="form-control" type="file" id="image" name="image">
+
+                {{-- Anteprima immagine upload--}}
+                <div class="preview w-50 m-auto">
+                    <img class="img-fluid" id="file-image-preview" @if($portfolio->image) src="{{ asset('storage/' . $portfolio->image) }}" @endif>
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary">Salva modifiche</button>
 
         </form>

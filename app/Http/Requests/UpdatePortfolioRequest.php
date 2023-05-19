@@ -28,7 +28,8 @@ class UpdatePortfolioRequest extends FormRequest
             'name' => ['required', Rule::unique('portfolios')->ignore($this->portfolio), 'max:255'],
             'description' =>'nullable',
             'start_date' => 'required|date',
-            'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|image|max:2048'
+            'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|image|max:2048',
+            'set_image' => 'boolean'
         ];
     }
 }
